@@ -38,7 +38,7 @@ function setup() {
   // 初期色を設定
   baseColor = baseColors[0].value;
   icingColor = icingColors[1].value;
-  sprayColor = sprayColors[1].value;
+  sprayColor = 'rainbow'; // レインボーをデフォルトに
   
   // UI要素を設定
   setupUI();
@@ -202,6 +202,24 @@ function windowResized() {
   
   // 再描画
   drawDonut();
+  
+  // モバイルデバイスの場合、キャンバスサイズをウィンドウ幅に合わせる
+  if (windowWidth < 768) {
+    // キャンバスサイズを画面幅の90%に設定（余白を残す）
+    const mobileCanvasSize = windowWidth * 0.9;
+    resizeCanvas(mobileCanvasSize, mobileCanvasSize);
+    
+    // グラフィックスバッファもリサイズ
+    baseLayer.resizeCanvas(width, height);
+    icingLayer.resizeCanvas(width, height);
+    paintLayer.resizeCanvas(width, height);
+    outlineLayer.resizeCanvas(width, height);
+    shadowLayer.resizeCanvas(width, height);
+    maskLayer.resizeCanvas(width, height);
+    
+    // 再描画
+    drawDonut();
+  }
 }
 
 function draw() {
