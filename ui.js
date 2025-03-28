@@ -1,5 +1,31 @@
+// モバイルナビゲーションの設定
+function setupMobileNav() {
+  const navButtons = document.querySelectorAll('.nav-button');
+  
+  navButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // 全てのボタンを非アクティブに
+      navButtons.forEach(b => b.classList.remove('active'));
+      
+      // クリックされたボタンをアクティブに
+      button.classList.add('active');
+      
+      // 全てのパネルを非表示に
+      const panels = document.querySelectorAll('.panel');
+      panels.forEach(p => p.classList.remove('active'));
+      
+      // 対応するパネルを表示
+      const panelId = button.getAttribute('data-panel');
+      document.getElementById(`panel-${panelId}`).classList.add('active');
+    });
+  });
+}
+
 // UI要素を設定
 function setupUI() {
+  // モバイルナビゲーションの設定
+  setupMobileNav();
+  
   // ドーナツ形状ボタン
   document.getElementById('btn-ring').addEventListener('click', () => {
     donutShape = 'ring';

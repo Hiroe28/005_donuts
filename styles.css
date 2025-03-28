@@ -214,7 +214,34 @@ input[type="range"]::-webkit-slider-thumb {
   transform: none;
 }
 
-/* タブ関連のコードを削除 */
+/* モバイルナビゲーションのスタイル - デスクトップでは非表示 */
+.mobile-nav {
+  display: none;
+}
+
+/* パネルコンテナ */
+.panel-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* パネル */
+.panel {
+  display: none;
+}
+
+.panel.active {
+  display: block;
+}
+
+/* デスクトップでは全てのパネルを表示 */
+@media (min-width: 769px) {
+  .panel {
+    display: block !important;
+  }
+}
+
 .tool-settings {
   margin-top: 15px;
 }
@@ -256,41 +283,83 @@ input[type="range"]::-webkit-slider-thumb {
   #ui-container {
     width: 100%;
     max-width: 100%;
-  }
-  
-  .control-panels {
-    flex-direction: column;
-  }
-  
-  .decoration-container {
-    flex-direction: column;
-  }
-  
-  h1 {
-    font-size: 1.5rem;
+    margin-top: 60px; /* キャンバス用の余白 */
   }
   
   /* モバイル向けのキャンバスサイズ調整 */
   #canvas-container {
-    margin: 10px auto 20px;
-    width: 95%;
+    position: fixed;
+    top: 55px;
+    left: 0;
+    width: 100%;
+    z-index: 10;
+    background-color: #fff6e6;
+    padding: 10px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
   }
   
-  /* モバイル向けのボタンサイズ調整 */
+  /* モバイルナビゲーション表示 */
+  .mobile-nav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    border-top: 2px solid #ffcce0;
+  }
+  
+  .nav-button {
+    flex: 1;
+    text-align: center;
+    padding: 15px 5px;
+    font-weight: bold;
+    color: #ff6b9e;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+  }
+  
+  .nav-button.active {
+    background-color: #fff2f7;
+    border-bottom: 3px solid #ff4d94;
+  }
+  
+  /* パネル位置調整 */
+  .panel-container {
+    padding-bottom: 70px; /* ナビゲーションの高さ分の余白 */
+  }
+  
+  /* パネルの見た目調整 */
+  .control-panel {
+    margin-bottom: 15px;
+  }
+  
+  /* ヘッダー固定 */
+  h1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    margin: 0;
+    padding: 10px;
+    background-color: #fff6e6;
+    z-index: 20;
+    font-size: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  /* ボタンと色パレットのサイズ調整 */
   .button {
-    padding: 12px 15px;
+    padding: 15px 20px;
     margin: 8px 5px;
     font-size: 16px;
   }
   
-  /* パネル間の間隔調整 */
-  .control-panel, .decoration-panel {
-    margin-bottom: 15px;
-  }
-  
-  /* 色パレットの要素を大きく */
   .color-option {
-    width: 36px;
-    height: 36px;
+    width: 40px;
+    height: 40px;
   }
 }

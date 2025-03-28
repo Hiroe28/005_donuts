@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ドーナツデコレーター</title>
+  <title>子ども向けドーナツデコレーター</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -12,32 +12,42 @@
   <div id="app-container">
     <div id="canvas-container"></div>
     <div id="ui-container">
-      <div class="control-panels">
-        <div class="control-panel">
+      <!-- モバイル用ナビゲーション -->
+      <div class="mobile-nav">
+        <div class="nav-button active" data-panel="basic">
+          <span>基本設定</span>
+        </div>
+        <div class="nav-button" data-panel="decor">
+          <span>デコレーション</span>
+        </div>
+        <div class="nav-button" data-panel="action">
+          <span>アクション</span>
+        </div>
+      </div>
+      
+      <!-- 操作パネル -->
+      <div class="panel-container">
+        <!-- 基本設定パネル -->
+        <div id="panel-basic" class="control-panel panel active">
           <div class="panel-title">ドーナツの形</div>
           <div class="tool-buttons">
             <button id="btn-ring" class="button active">リング</button>
             <button id="btn-jam" class="button">ジャム</button>
           </div>
-        </div>
-        
-        <div class="control-panel">
+          
           <div class="panel-title">ドーナツの色</div>
           <div class="color-palette" id="base-colors">
             <!-- 色はJavaScriptで動的に追加 -->
           </div>
-        </div>
-        
-        <div class="control-panel">
+          
           <div class="panel-title">アイシングの色</div>
           <div class="color-palette" id="icing-colors">
             <!-- 色はJavaScriptで動的に追加 -->
           </div>
         </div>
-      </div>
-      
-      <div class="decoration-container">
-        <div class="decoration-panel">
+        
+        <!-- デコレーションパネル -->
+        <div id="panel-decor" class="control-panel panel">
           <div class="panel-title">デコレーションツール</div>
           <div class="tool-buttons">
             <button id="btn-spray" class="button active">スプレー</button>
@@ -68,15 +78,16 @@
             </div>
           </div>
         </div>
-      </div>
-      
-      <div class="control-panel">
-        <div class="panel-title">アクション</div>
-        <div class="action-buttons">
-          <button id="btn-undo" class="button button-undo" disabled>１つ戻る</button>
-          <button id="btn-random" class="button">おまかせ</button>
-          <button id="btn-reset" class="button">リセット</button>
-          <button id="btn-save" class="button">保存する</button>
+        
+        <!-- アクションパネル -->
+        <div id="panel-action" class="control-panel panel">
+          <div class="panel-title">アクション</div>
+          <div class="action-buttons">
+            <button id="btn-undo" class="button button-undo" disabled>１つ戻る</button>
+            <button id="btn-random" class="button">おまかせ</button>
+            <button id="btn-reset" class="button">リセット</button>
+            <button id="btn-save" class="button">保存する</button>
+          </div>
         </div>
       </div>
     </div>
