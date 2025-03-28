@@ -253,6 +253,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 /* メディアクエリ */
 @media (max-width: 768px) {
+  body {
+    padding-bottom: 70px; /* メニューバーの高さ分の余白を追加 */
+  }
+  
   #app-container {
     flex-direction: column;
     align-items: center;
@@ -293,34 +297,43 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 10px 0;
   }
   
-  /* モバイルフローティングメニュー */
+  /* モバイルメニューバー - 画面下部に固定 */
   #mobile-menu {
     display: flex;
     position: fixed;
-    bottom: 20px;
-    right: 10px;
-    flex-direction: column;
-    gap: 10px;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
     z-index: 1000;
+    border-top: 2px solid #ffcce0;
+    justify-content: space-around;
+    padding: 10px 0;
   }
   
   .mobile-menu-button {
-    width: 120px;
-    padding: 12px;
-    background-color: #ff6b9e;
-    color: white;
+    padding: 10px 15px;
+    background-color: #ffcce0;
+    color: #ff4d94;
     border: none;
     border-radius: 30px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     font-weight: bold;
     cursor: pointer;
     transition: transform 0.2s;
+    flex: 1;
+    margin: 0 5px;
+    font-size: 14px;
+    max-width: 33%;
+    text-align: center;
   }
   
   .mobile-menu-button:hover, 
   .mobile-menu-button:active {
     transform: scale(1.05);
     background-color: #ff4d94;
+    color: white;
   }
   
   /* モバイル向けのボタンサイズ調整 */
