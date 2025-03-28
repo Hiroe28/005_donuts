@@ -1,270 +1,327 @@
 body {
-    display: flex;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: 'Arial Rounded MT Bold', 'Hiragino Maru Gothic ProN', 'Meiryo', sans-serif;
+  background-color: #fff6e6; /* より明るいクリーム色の背景 */
+  color: #5a4a42; /* ダークブラウンのテキスト */
+}
+
+h1 {
+  color: #ff6b9e;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 15px;
+  font-size: 2rem;
+}
+
+#app-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 10px;
+  gap: 20px;
+  max-width: 1200px;
+}
+
+#canvas-container {
+  margin-bottom: 10px;
+  position: relative;
+  box-shadow: 0 8px 16px rgba(0,0,0,0.15);
+  border-radius: 16px;
+  overflow: hidden;
+  flex: 0 0 auto;
+  background: white;
+  padding: 10px;
+}
+
+#ui-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  flex: 1 1 300px;
+  max-width: 600px;
+}
+
+.control-panels {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  justify-content: space-between;
+}
+
+.control-panel {
+  background-color: white;
+  padding: 18px;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(255, 107, 158, 0.1);
+  min-width: 160px;
+  flex: 1 1 auto;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.control-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(255, 107, 158, 0.15);
+}
+
+.panel-title {
+  text-align: center;
+  font-weight: bold;
+  margin-bottom: 12px;
+  color: #ff6b9e;
+  font-size: 1.1rem;
+  border-bottom: 2px dotted #ffcce0;
+  padding-bottom: 8px;
+}
+
+.decoration-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.decoration-panel {
+  background-color: white;
+  padding: 18px;
+  border-radius: 20px;
+  box-shadow: 0 6px 12px rgba(255, 107, 158, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.decoration-panel:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(255, 107, 158, 0.15);
+}
+
+.button {
+  padding: 10px 15px;
+  background-color: #ffcce0;
+  border: none;
+  border-radius: 50px;
+  color: #ff4d94;
+  font-size: 15px;
+  font-weight: bold;
+  cursor: pointer;
+  margin: 5px;
+  transition: transform 0.2s, background-color 0.3s;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+
+.button:hover {
+  background-color: #ff9ec6;
+  transform: scale(1.05);
+  color: white;
+}
+
+.button.active {
+  background-color: #ff4d94;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
+  color: white;
+}
+
+.color-palette {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.color-option {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 3px solid white;
+  box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+  transition: transform 0.2s;
+}
+
+.color-option:hover {
+  transform: scale(1.15);
+}
+
+.color-option.selected {
+  border: 3px solid #ff4d94;
+  box-shadow: 0 0 8px rgba(255, 77, 148, 0.5);
+}
+
+.tool-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.slider-container {
+  margin: 12px 0;
+  background-color: #fff2f7;
+  padding: 10px;
+  border-radius: 12px;
+}
+
+.slider-container label {
+  font-weight: bold;
+  color: #ff6b9e;
+  display: block;
+  margin-bottom: 5px;
+}
+
+input[type="range"] {
+  width: 100%;
+  height: 10px;
+  border-radius: 5px;
+  background: #ffe6f0;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #ff6b9e;
+  cursor: pointer;
+  box-shadow: 0 0 5px rgba(0,0,0,0.2);
+}
+
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.button-undo {
+  background-color: #ffe0b3;
+  color: #cc7000;
+}
+
+.button-undo:hover:not(:disabled) {
+  background-color: #ffb84d;
+  transform: scale(1.05);
+  color: white;
+}
+
+.button-undo:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* モバイルタブ - デスクトップでは非表示 */
+.mobile-tabs {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .tab-content {
+    display: block !important; /* デスクトップでは常に表示 */
+  }
+}
+
+.tool-settings {
+  margin-top: 15px;
+}
+
+.topping-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-top: 12px;
+  background-color: #fff2f7;
+  padding: 8px 12px;
+  border-radius: 12px;
+}
+
+.checkbox-container input[type="checkbox"] {
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
+  accent-color: #ff6b9e;
+}
+
+.checkbox-container label {
+  font-weight: bold;
+  color: #ff6b9e;
+}
+
+@media (max-width: 768px) {
+  #app-container {
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    font-family: 'Arial Rounded MT Bold', 'Hiragino Maru Gothic ProN', 'Meiryo', sans-serif;
-    background-color: #fff6e6; /* より明るいクリーム色の背景 */
-    color: #5a4a42; /* ダークブラウンのテキスト */
-  }
-  
-  h1 {
-    color: #ff6b9e;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-    margin-bottom: 15px;
-    font-size: 2rem;
-  }
-  
-  #app-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: flex-start;
-    margin-top: 10px;
-    gap: 20px;
-    max-width: 1200px;
-  }
-  
-  #canvas-container {
-    margin-bottom: 10px;
-    position: relative;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    border-radius: 16px;
-    overflow: hidden;
-    flex: 0 0 auto;
-    background: white;
-    padding: 10px;
   }
   
   #ui-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    flex: 1 1 300px;
-    max-width: 600px;
+    width: 100%;
+    max-width: 100%;
   }
   
   .control-panels {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 15px;
-    justify-content: space-between;
-  }
-  
-  .control-panel {
-    background-color: white;
-    padding: 18px;
-    border-radius: 20px;
-    box-shadow: 0 6px 12px rgba(255, 107, 158, 0.1);
-    min-width: 160px;
-    flex: 1 1 auto;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  
-  .control-panel:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(255, 107, 158, 0.15);
-  }
-  
-  .panel-title {
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 12px;
-    color: #ff6b9e;
-    font-size: 1.1rem;
-    border-bottom: 2px dotted #ffcce0;
-    padding-bottom: 8px;
+    flex-direction: column;
   }
   
   .decoration-container {
-    display: flex;
     flex-direction: column;
-    gap: 15px;
   }
   
-  .decoration-panel {
-    background-color: white;
-    padding: 18px;
-    border-radius: 20px;
-    box-shadow: 0 6px 12px rgba(255, 107, 158, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
+  h1 {
+    font-size: 1.5rem;
   }
-  
-  .decoration-panel:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(255, 107, 158, 0.15);
-  }
-  
-  .button {
-    padding: 10px 15px;
-    background-color: #ffcce0;
-    border: none;
-    border-radius: 50px;
-    color: #ff4d94;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-    margin: 5px;
-    transition: transform 0.2s, background-color 0.3s;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.1);
-  }
-  
-  .button:hover {
-    background-color: #ff9ec6;
-    transform: scale(1.05);
-    color: white;
-  }
-  
-  .button.active {
-    background-color: #ff4d94;
-    box-shadow: inset 0 0 5px rgba(0,0,0,0.2);
-    color: white;
-  }
-  
-  .color-palette {
+
+  /* モバイル用タブナビゲーション */
+  .mobile-tabs {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  
-  .color-option {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 3px solid white;
-    box-shadow: 0 3px 5px rgba(0,0,0,0.1);
-    transition: transform 0.2s;
-  }
-  
-  .color-option:hover {
-    transform: scale(1.15);
-  }
-  
-  .color-option.selected {
-    border: 3px solid #ff4d94;
-    box-shadow: 0 0 8px rgba(255, 77, 148, 0.5);
-  }
-  
-  .tool-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  
-  .slider-container {
-    margin: 12px 0;
-    background-color: #fff2f7;
-    padding: 10px;
-    border-radius: 12px;
-  }
-  
-  .slider-container label {
-    font-weight: bold;
-    color: #ff6b9e;
-    display: block;
-    margin-bottom: 5px;
-  }
-  
-  input[type="range"] {
+    position: fixed;
+    bottom: 0;
+    left: 0;
     width: 100%;
-    height: 10px;
-    border-radius: 5px;
-    background: #ffe6f0;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
+    background-color: white;
+    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    z-index: 100;
+    border-top: 2px solid #ffcce0;
   }
   
-  input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: #ff6b9e;
-    cursor: pointer;
-    box-shadow: 0 0 5px rgba(0,0,0,0.2);
-  }
-  
-  .action-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-  }
-  
-  .button-undo {
-    background-color: #ffe0b3;
-    color: #cc7000;
-  }
-  
-  .button-undo:hover:not(:disabled) {
-    background-color: #ffb84d;
-    transform: scale(1.05);
-    color: white;
-  }
-  
-  .button-undo:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none;
-  }
-  
-  .tool-settings {
-    margin-top: 15px;
-  }
-  
-  .topping-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-top: 10px;
-  }
-  
-  .checkbox-container {
-    display: flex;
-    align-items: center;
-    margin-top: 12px;
-    background-color: #fff2f7;
-    padding: 8px 12px;
-    border-radius: 12px;
-  }
-  
-  .checkbox-container input[type="checkbox"] {
-    margin-right: 8px;
-    width: 18px;
-    height: 18px;
-    accent-color: #ff6b9e;
-  }
-  
-  .checkbox-container label {
+  .mobile-tab {
+    flex: 1;
+    text-align: center;
+    padding: 10px;
     font-weight: bold;
     color: #ff6b9e;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
   }
   
-  @media (max-width: 768px) {
-    #app-container {
-      flex-direction: column;
-      align-items: center;
-    }
-    
-    #ui-container {
-      width: 100%;
-    }
-    
-    .control-panels {
-      flex-direction: column;
-    }
-    
-    .decoration-container {
-      flex-direction: column;
-    }
-    
-    h1 {
-      font-size: 1.5rem;
-    }
+  .mobile-tab.active {
+    background-color: #fff2f7;
+    border-bottom: 3px solid #ff4d94;
   }
+  
+  .tab-content {
+    display: none;
+    margin-bottom: 70px; /* タブナビゲーションの高さ分の余白 */
+  }
+  
+  .tab-content.active {
+    display: block;
+  }
+  
+  /* ドーナツキャンバスを固定表示 */
+  #canvas-container {
+    position: sticky;
+    top: 10px;
+    z-index: 10;
+    margin-bottom: 15px;
+  }
+}
