@@ -1,119 +1,39 @@
-// モバイルナビゲーションの設定
-function setupMobileNav() {
-  // モバイルナビゲーションのタブ切り替え
-  const navButtons = document.querySelectorAll('#mobile-nav .nav-button');
-  
-  navButtons.forEach(button => {
-    button.addEventListener('click', function() {
-      // すべてのナビボタンの選択状態を解除
-      navButtons.forEach(b => b.classList.remove('active'));
-      // クリックしたボタンを選択状態に
-      this.classList.add('active');
-      
-      // すべてのパネルを非表示に
-      const panels = document.querySelectorAll('#mobile-panels .control-panel');
-      panels.forEach(panel => panel.classList.remove('active'));
-      
-      // 対応するパネルを表示
-      const panelId = this.getAttribute('data-panel');
-      document.getElementById(`panel-${panelId}`).classList.add('active');
+// モバイル用スクロールメニューの設定
+function setupMobileMenu() {
+  // モバイルではスクロール位置に応じたナビゲーションボタンを提供
+  if (window.innerWidth <= 768) {
+    const btnScrollToTop = document.getElementById('mobile-btn-scroll-to-top');
+    const btnScrollToTools = document.getElementById('mobile-btn-scroll-to-tools');
+    const btnScrollToAction = document.getElementById('mobile-btn-scroll-to-action');
+    
+    // ドーナツへスクロール
+    btnScrollToTop.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
     });
-  });
-  
-  // モバイル用ボタンのイベントをデスクトップ用と同期
-  
-  // ドーナツ形状
-  document.getElementById('mobile-btn-ring').addEventListener('click', function() {
-    document.getElementById('btn-ring').click();
-    this.classList.add('active');
-    document.getElementById('mobile-btn-jam').classList.remove('active');
-  });
-  
-  document.getElementById('mobile-btn-jam').addEventListener('click', function() {
-    document.getElementById('btn-jam').click();
-    this.classList.add('active');
-    document.getElementById('mobile-btn-ring').classList.remove('active');
-  });
-  
-  // デコレーションツール
-  document.getElementById('mobile-btn-spray').addEventListener('click', function() {
-    document.getElementById('btn-spray').click();
-    setActiveButton('mobile-btn-spray', ['mobile-btn-sprinkles', 'mobile-btn-choco', 'mobile-btn-heart', 'mobile-btn-star']);
-    document.getElementById('mobile-spray-settings').style.display = 'block';
-    document.getElementById('mobile-topping-settings').style.display = 'none';
-  });
-  
-  document.getElementById('mobile-btn-sprinkles').addEventListener('click', function() {
-    document.getElementById('btn-sprinkles').click();
-    setActiveButton('mobile-btn-sprinkles', ['mobile-btn-spray', 'mobile-btn-choco', 'mobile-btn-heart', 'mobile-btn-star']);
-    document.getElementById('mobile-spray-settings').style.display = 'none';
-    document.getElementById('mobile-topping-settings').style.display = 'block';
-  });
-  
-  document.getElementById('mobile-btn-choco').addEventListener('click', function() {
-    document.getElementById('btn-choco').click();
-    setActiveButton('mobile-btn-choco', ['mobile-btn-spray', 'mobile-btn-sprinkles', 'mobile-btn-heart', 'mobile-btn-star']);
-    document.getElementById('mobile-spray-settings').style.display = 'none';
-    document.getElementById('mobile-topping-settings').style.display = 'block';
-  });
-  
-  document.getElementById('mobile-btn-heart').addEventListener('click', function() {
-    document.getElementById('btn-heart').click();
-    setActiveButton('mobile-btn-heart', ['mobile-btn-spray', 'mobile-btn-sprinkles', 'mobile-btn-choco', 'mobile-btn-star']);
-    document.getElementById('mobile-spray-settings').style.display = 'none';
-    document.getElementById('mobile-topping-settings').style.display = 'block';
-  });
-  
-  document.getElementById('mobile-btn-star').addEventListener('click', function() {
-    document.getElementById('btn-star').click();
-    setActiveButton('mobile-btn-star', ['mobile-btn-spray', 'mobile-btn-sprinkles', 'mobile-btn-choco', 'mobile-btn-heart']);
-    document.getElementById('mobile-spray-settings').style.display = 'none';
-    document.getElementById('mobile-topping-settings').style.display = 'block';
-  });
-  
-  // サイズスライダーの同期
-  document.getElementById('mobile-tool-size').addEventListener('input', function() {
-    document.getElementById('tool-size').value = this.value;
-    document.getElementById('tool-size-value').textContent = this.value;
-    document.getElementById('mobile-tool-size-value').textContent = this.value;
-    toolSize = parseInt(this.value);
-  });
-  
-  document.getElementById('mobile-topping-size').addEventListener('input', function() {
-    document.getElementById('topping-size').value = this.value;
-    document.getElementById('topping-size-value').textContent = this.value;
-    document.getElementById('mobile-topping-size-value').textContent = this.value;
-    toppingSize = parseInt(this.value);
-  });
-  
-  // ランダム配置チェックボックスの同期
-  document.getElementById('mobile-random-placement').addEventListener('change', function() {
-    document.getElementById('random-placement').checked = this.checked;
-    randomPlacement = this.checked;
-  });
-  
-  // アクションボタン
-  document.getElementById('mobile-btn-undo').addEventListener('click', function() {
-    document.getElementById('btn-undo').click();
-  });
-  
-  document.getElementById('mobile-btn-random').addEventListener('click', function() {
-    document.getElementById('btn-random').click();
-  });
-  
-  document.getElementById('mobile-btn-reset').addEventListener('click', function() {
-    document.getElementById('btn-reset').click();
-  });
-  
-  document.getElementById('mobile-btn-save').addEventListener('click', function() {
-    document.getElementById('btn-save').click();
-  });
-}
-
-// UI要素を設定
+    
+    // デコレーションツールへスクロール
+    btnScrollToTools.addEventListener('click', () => {
+      const decorPanel = document.querySelector('.decoration-panel');
+      if (decorPanel) {
+        decorPanel.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+    
+    // アクションパネルへスクロール
+    btnScrollToAction.addEventListener('click', () => {
+      const actionPanel = document.querySelectorAll('.control-panel')[3]; // アクションパネルは4番目のコントロールパネル
+      if (actionPanel) {
+        actionPanel.scrollIntoView({ behavior: 'smooth' });
+      }
+    });
+  }
+}// UI要素を設定
 function setupUI() {
-  // モバイルナビゲーションの設定
-  setupMobileNav();
+  // モバイルフローティングメニューの設定
+  setupMobileMenu();
   
   // ドーナツ形状ボタン
   document.getElementById('btn-ring').addEventListener('click', () => {
@@ -242,22 +162,24 @@ function setupUI() {
     sprayColor = color;
   });
   
-  // モバイル用の色パレットも作成
-  createColorPalette('mobile-base-colors', baseColors, (color) => {
-    baseColor = color;
-    drawDonut();
-    saveToHistory();
-  });
-  
-  createColorPalette('mobile-icing-colors', icingColors, (color) => {
-    icingColor = color;
-    drawDonut();
-    saveToHistory();
-  });
-  
-  createColorPalette('mobile-spray-colors', sprayColors, (color) => {
-    sprayColor = color;
-  });
+  // レインボーを初期選択状態にする
+  setTimeout(() => {
+    const sprayContainer = document.getElementById('spray-colors');
+    const colorOptions = sprayContainer.querySelectorAll('.color-option');
+    
+    // 全ての選択状態をクリア
+    colorOptions.forEach(option => {
+      option.classList.remove('selected');
+    });
+    
+    // レインボーのオプションを見つけて選択状態にする
+    colorOptions.forEach(option => {
+      // グラデーション背景を持つ要素がレインボー
+      if (option.style.background && option.style.background.includes('linear-gradient')) {
+        option.classList.add('selected');
+      }
+    });
+  }, 100); // DOMが完全に読み込まれるのを少し待つ
   
   // アクションボタン
   document.getElementById('btn-undo').addEventListener('click', () => {
@@ -284,7 +206,6 @@ function setupUI() {
 // 色パレットを作成する関数
 function createColorPalette(containerId, colors, callback) {
   const container = document.getElementById(containerId);
-  const isMobile = containerId.startsWith('mobile-');
   
   colors.forEach(color => {
     const element = document.createElement('div');
@@ -295,7 +216,7 @@ function createColorPalette(containerId, colors, callback) {
       element.style.background = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
       
       // レインボーの場合はデフォルトで選択状態に（sprayColorsの場合のみ）
-      if (containerId === 'spray-colors' || containerId === 'mobile-spray-colors') {
+      if (containerId === 'spray-colors') {
         element.classList.add('selected');
       }
     } else {
@@ -312,41 +233,6 @@ function createColorPalette(containerId, colors, callback) {
       
       // 選択した色をハイライト
       element.classList.add('selected');
-      
-      // モバイルとデスクトップの同期
-      if (isMobile) {
-        // モバイルで選択された場合、デスクトップのパレットも更新
-        const desktopId = containerId.replace('mobile-', '');
-        const desktopPalette = document.getElementById(desktopId);
-        
-        if (desktopPalette) {
-          const desktopElements = desktopPalette.querySelectorAll('.color-option');
-          // 対応する色を選択状態に
-          desktopElements.forEach((el, index) => {
-            if (index === Array.from(container.querySelectorAll('.color-option')).indexOf(element)) {
-              el.classList.add('selected');
-            } else {
-              el.classList.remove('selected');
-            }
-          });
-        }
-      } else {
-        // デスクトップで選択された場合、モバイルのパレットも更新
-        const mobileId = 'mobile-' + containerId;
-        const mobilePalette = document.getElementById(mobileId);
-        
-        if (mobilePalette) {
-          const mobileElements = mobilePalette.querySelectorAll('.color-option');
-          // 対応する色を選択状態に
-          mobileElements.forEach((el, index) => {
-            if (index === Array.from(container.querySelectorAll('.color-option')).indexOf(element)) {
-              el.classList.add('selected');
-            } else {
-              el.classList.remove('selected');
-            }
-          });
-        }
-      }
       
       // コールバックを実行
       callback(color.value);
