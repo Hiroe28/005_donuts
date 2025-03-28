@@ -214,17 +214,7 @@ input[type="range"]::-webkit-slider-thumb {
   transform: none;
 }
 
-/* モバイルタブ - デスクトップでは非表示 */
-.mobile-tabs {
-  display: none;
-}
-
-@media (min-width: 769px) {
-  .tab-content {
-    display: block !important; /* デスクトップでは常に表示 */
-  }
-}
-
+/* タブ関連のコードを削除 */
 .tool-settings {
   margin-top: 15px;
 }
@@ -279,49 +269,28 @@ input[type="range"]::-webkit-slider-thumb {
   h1 {
     font-size: 1.5rem;
   }
-
-  /* モバイル用タブナビゲーション */
-  .mobile-tabs {
-    display: flex;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: white;
-    box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
-    z-index: 100;
-    border-top: 2px solid #ffcce0;
-  }
   
-  .mobile-tab {
-    flex: 1;
-    text-align: center;
-    padding: 10px;
-    font-weight: bold;
-    color: #ff6b9e;
-    cursor: pointer;
-    border-bottom: 3px solid transparent;
-  }
-  
-  .mobile-tab.active {
-    background-color: #fff2f7;
-    border-bottom: 3px solid #ff4d94;
-  }
-  
-  .tab-content {
-    display: none;
-    margin-bottom: 70px; /* タブナビゲーションの高さ分の余白 */
-  }
-  
-  .tab-content.active {
-    display: block;
-  }
-  
-  /* ドーナツキャンバスを固定表示 */
+  /* モバイル向けのキャンバスサイズ調整 */
   #canvas-container {
-    position: sticky;
-    top: 10px;
-    z-index: 10;
+    margin: 10px auto 20px;
+    width: 95%;
+  }
+  
+  /* モバイル向けのボタンサイズ調整 */
+  .button {
+    padding: 12px 15px;
+    margin: 8px 5px;
+    font-size: 16px;
+  }
+  
+  /* パネル間の間隔調整 */
+  .control-panel, .decoration-panel {
     margin-bottom: 15px;
+  }
+  
+  /* 色パレットの要素を大きく */
+  .color-option {
+    width: 36px;
+    height: 36px;
   }
 }

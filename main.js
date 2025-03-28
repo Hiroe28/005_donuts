@@ -189,10 +189,18 @@ function updateUIState() {
 
 function windowResized() {
   // レスポンシブ対応
-  const canvasSize = min(windowWidth * 0.4, 400);
-  resizeCanvas(canvasSize, canvasSize);
+  let canvasSize;
   
-  // グラフィックスバッファのリサイズ
+  // モバイルデバイスの場合、キャンバスサイズをウィンドウ幅に合わせる
+  if (windowWidth < 768) {
+    // キャンバスサイズを画面幅の90%に設定（余白を残す）
+    canvasSize = windowWidth * 0.9;
+  } else {
+    canvasSize = min(windowWidth * 0.4, 400);
+  }
+  
+  // キャンバスとグラフィックスバッファをリサイズ
+  resizeCanvas(canvasSize, canvasSize);
   baseLayer.resizeCanvas(width, height);
   icingLayer.resizeCanvas(width, height);
   paintLayer.resizeCanvas(width, height);
@@ -202,24 +210,6 @@ function windowResized() {
   
   // 再描画
   drawDonut();
-  
-  // モバイルデバイスの場合、キャンバスサイズをウィンドウ幅に合わせる
-  if (windowWidth < 768) {
-    // キャンバスサイズを画面幅の90%に設定（余白を残す）
-    const mobileCanvasSize = windowWidth * 0.9;
-    resizeCanvas(mobileCanvasSize, mobileCanvasSize);
-    
-    // グラフィックスバッファもリサイズ
-    baseLayer.resizeCanvas(width, height);
-    icingLayer.resizeCanvas(width, height);
-    paintLayer.resizeCanvas(width, height);
-    outlineLayer.resizeCanvas(width, height);
-    shadowLayer.resizeCanvas(width, height);
-    maskLayer.resizeCanvas(width, height);
-    
-    // 再描画
-    drawDonut();
-  }
 }
 
 function draw() {

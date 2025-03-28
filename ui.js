@@ -1,32 +1,5 @@
-// モバイルタブの設定
-function setupMobileTabs() {
-  // タブ切り替え処理
-  const tabs = document.querySelectorAll('.mobile-tab');
-  
-  tabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-      // 全てのタブを非アクティブに
-      tabs.forEach(t => t.classList.remove('active'));
-      
-      // クリックされたタブをアクティブに
-      tab.classList.add('active');
-      
-      // 全てのコンテンツを非表示に
-      const contents = document.querySelectorAll('.tab-content');
-      contents.forEach(c => c.classList.remove('active'));
-      
-      // 対応するコンテンツを表示
-      const tabName = tab.getAttribute('data-tab');
-      document.getElementById(`tab-${tabName}`).classList.add('active');
-    });
-  });
-}
-
 // UI要素を設定
 function setupUI() {
-  // モバイルタブの設定
-  setupMobileTabs();
-  
   // ドーナツ形状ボタン
   document.getElementById('btn-ring').addEventListener('click', () => {
     donutShape = 'ring';

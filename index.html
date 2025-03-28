@@ -12,87 +12,71 @@
   <div id="app-container">
     <div id="canvas-container"></div>
     <div id="ui-container">
-      <!-- モバイル用タブナビゲーション (デスクトップでは非表示) -->
-      <div class="mobile-tabs">
-        <div class="mobile-tab active" data-tab="basic">基本設定</div>
-        <div class="mobile-tab" data-tab="decor">デコレーション</div>
-        <div class="mobile-tab" data-tab="action">アクション</div>
-      </div>
-      
-      <!-- 基本設定タブ (ドーナツの形とカラー) -->
-      <div id="tab-basic" class="tab-content active">
-        <div class="control-panels">
-          <div class="control-panel">
-            <div class="panel-title">ドーナツの形</div>
-            <div class="tool-buttons">
-              <button id="btn-ring" class="button active">リング</button>
-              <button id="btn-jam" class="button">ジャム</button>
-            </div>
-          </div>
-          
-          <div class="control-panel">
-            <div class="panel-title">ドーナツの色</div>
-            <div class="color-palette" id="base-colors">
-              <!-- 色はJavaScriptで動的に追加 -->
-            </div>
-          </div>
-          
-          <div class="control-panel">
-            <div class="panel-title">アイシングの色</div>
-            <div class="color-palette" id="icing-colors">
-              <!-- 色はJavaScriptで動的に追加 -->
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- デコレーションタブ -->
-      <div id="tab-decor" class="tab-content">
-        <div class="decoration-container">
-          <div class="decoration-panel">
-            <div class="panel-title">デコレーションツール</div>
-            <div class="tool-buttons">
-              <button id="btn-spray" class="button active">スプレー</button>
-              <button id="btn-sprinkles" class="button">スプリンクル</button>
-              <button id="btn-choco" class="button">チョコチップ</button>
-              <button id="btn-heart" class="button">ハート</button>
-              <button id="btn-star" class="button">星</button>
-            </div>
-            
-            <div id="spray-settings" class="tool-settings">
-              <div class="slider-container">
-                <label for="tool-size">スプレーのサイズ: <span id="tool-size-value">10</span></label>
-                <input type="range" id="tool-size" min="5" max="20" value="10">
-              </div>
-              <div class="color-palette" id="spray-colors">
-                <!-- 色はJavaScriptで動的に追加 -->
-              </div>
-            </div>
-            
-            <div id="topping-settings" class="tool-settings" style="display: none;">
-              <div class="slider-container">
-                <label for="topping-size">トッピングのサイズ: <span id="topping-size-value">10</span></label>
-                <input type="range" id="topping-size" min="5" max="20" value="10">
-              </div>
-              <div class="checkbox-container">
-                <input type="checkbox" id="random-placement" checked>
-                <label for="random-placement">ランダム配置</label>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      <!-- アクションタブ -->
-      <div id="tab-action" class="tab-content">
+      <div class="control-panels">
         <div class="control-panel">
-          <div class="panel-title">アクション</div>
-          <div class="action-buttons">
-            <button id="btn-undo" class="button button-undo" disabled>１つ戻る</button>
-            <button id="btn-random" class="button">おまかせ</button>
-            <button id="btn-reset" class="button">リセット</button>
-            <button id="btn-save" class="button">保存する</button>
+          <div class="panel-title">ドーナツの形</div>
+          <div class="tool-buttons">
+            <button id="btn-ring" class="button active">リング</button>
+            <button id="btn-jam" class="button">ジャム</button>
           </div>
+        </div>
+        
+        <div class="control-panel">
+          <div class="panel-title">ドーナツの色</div>
+          <div class="color-palette" id="base-colors">
+            <!-- 色はJavaScriptで動的に追加 -->
+          </div>
+        </div>
+        
+        <div class="control-panel">
+          <div class="panel-title">アイシングの色</div>
+          <div class="color-palette" id="icing-colors">
+            <!-- 色はJavaScriptで動的に追加 -->
+          </div>
+        </div>
+      </div>
+      
+      <div class="decoration-container">
+        <div class="decoration-panel">
+          <div class="panel-title">デコレーションツール</div>
+          <div class="tool-buttons">
+            <button id="btn-spray" class="button active">スプレー</button>
+            <button id="btn-sprinkles" class="button">スプリンクル</button>
+            <button id="btn-choco" class="button">チョコチップ</button>
+            <button id="btn-heart" class="button">ハート</button>
+            <button id="btn-star" class="button">星</button>
+          </div>
+          
+          <div id="spray-settings" class="tool-settings">
+            <div class="slider-container">
+              <label for="tool-size">スプレーのサイズ: <span id="tool-size-value">10</span></label>
+              <input type="range" id="tool-size" min="5" max="20" value="10">
+            </div>
+            <div class="color-palette" id="spray-colors">
+              <!-- 色はJavaScriptで動的に追加 -->
+            </div>
+          </div>
+          
+          <div id="topping-settings" class="tool-settings" style="display: none;">
+            <div class="slider-container">
+              <label for="topping-size">トッピングのサイズ: <span id="topping-size-value">10</span></label>
+              <input type="range" id="topping-size" min="5" max="20" value="10">
+            </div>
+            <div class="checkbox-container">
+              <input type="checkbox" id="random-placement" checked>
+              <label for="random-placement">ランダム配置</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="control-panel">
+        <div class="panel-title">アクション</div>
+        <div class="action-buttons">
+          <button id="btn-undo" class="button button-undo" disabled>１つ戻る</button>
+          <button id="btn-random" class="button">おまかせ</button>
+          <button id="btn-reset" class="button">リセット</button>
+          <button id="btn-save" class="button">保存する</button>
         </div>
       </div>
     </div>
