@@ -1,72 +1,122 @@
-// モバイル用ナビゲーションの設定
-function setupMobileNav() {
-  // モバイル画面サイズの場合のみ実行
-  if (window.innerWidth <= 768) {
-    const btnCanvas = document.getElementById('mobile-btn-canvas');
-    const btnDecoration = document.getElementById('mobile-btn-decoration');
-    const btnAction = document.getElementById('mobile-btn-action');
-    
-    // ドーナツキャンバスへスクロール
-    if (btnCanvas) {
-      btnCanvas.addEventListener('click', () => {
-        // 上部へスクロール
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+// モバイル用タブ切り替え機能
+function setupMobileTabs() {
+  const tabs = document.querySelectorAll('.mobile-tab');
+  
+  tabs.forEach(tab => {
+    tab.addEventListener('click', function() {
+      // すべてのタブを非アクティブ化
+      tabs.forEach(t => t.classList.remove('active'));
+      // クリックされたタブをアクティブ化
+      this.classList.add('active');
+      
+      // タブコンテンツを切り替え
+      const tabId = this.getAttribute('data-tab');
+      const tabContents = document.querySelectorAll('.mobile-tab-content');
+      
+      tabContents.forEach(content => {
+        content.classList.remove('active');
       });
-    }
-    
-    // デコレーションパネルへスクロール
-    if (btnDecoration) {
-      btnDecoration.addEventListener('click', () => {
-        // 必ず decoration-panel クラスを持つ要素を取得
-        const decorPanel = document.querySelector('.decoration-panel');
-        if (decorPanel) {
-          // スクロール位置の調整：
-          // - ヘッダー高さ + キャンバス高さ + 少し余白 = 約250px
-          const yOffset = -250;
-          const y = decorPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          
-          window.scrollTo({
-            top: Math.max(0, y), // 負の値にならないよう保護
-            behavior: 'smooth'
-          });
-        }
-      });
-    }
-    
-    // アクションパネルへスクロール
-    if (btnAction) {
-      btnAction.addEventListener('click', () => {
-        // アクションパネルを探す
-        const actionPanels = document.querySelectorAll('.control-panel');
-        const actionPanel = Array.from(actionPanels)
-          .find(panel => {
-            const title = panel.querySelector('.panel-title');
-            return title && title.textContent === 'アクション';
-          });
-        
-        if (actionPanel) {
-          // スクロール位置の調整：
-          // - ヘッダー高さ + キャンバス高さ + 少し余白 = 約250px
-          const yOffset = -250;
-          const y = actionPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
-          
-          window.scrollTo({
-            top: Math.max(0, y), // 負の値にならないよう保護
-            behavior: 'smooth'
-          });
-        }
-      });
-    }
-  }
+      
+      document.getElementById('mobile-tab-' + tabId).classList.add('active');
+    });
+  });
+}
+
+// モバイル用UIとデスクトップ用UIの同期
+function setupMobileSync() {
+  // ドーナツ形状ボタンの同期
+  document.getElementById('mobile-btn-ring').addEventListener('click', function() {
+    document.getElementById('btn-ring').click();
+    this.classList.add('active');
+    document.getElementById('mobile-btn-jam').classList.remove('active');
+  });
+  
+  document.getElementById('mobile-btn-jam').addEventListener('click', function() {
+    document.getElementById('btn-jam').click();
+    this.classList.add('active');
+    document.getElementById('mobile-btn-ring').classList.remove('active');
+  });
+  
+  // デコレーションツールの同期
+  document.getElementById('mobile-btn-spray').addEventListener('click', function() {
+    document.getElementById('btn-spray').click();
+    setActiveButton('mobile-btn-spray', ['mobile-btn-sprinkles', 'mobile-btn-choco', 'mobile-btn-heart', 'mobile-btn-star']);
+    document.getElementById('mobile-spray-settings').style.display = 'block';
+    document.getElementById('mobile-topping-settings').style.display = 'none';
+  });
+  
+  document.getElementById('mobile-btn-sprinkles').addEventListener('click', function() {
+    document.getElementById('btn-sprinkles').click();
+    setActiveButton('mobile-btn-sprinkles', ['mobile-btn-spray', 'mobile-btn-choco', 'mobile-btn-heart', 'mobile-btn-star']);
+    document.getElementById('mobile-spray-settings').style.display = 'none';
+    document.getElementById('mobile-topping-settings').style.display = 'block';
+  });
+  
+  document.getElementById('mobile-btn-choco').addEventListener('click', function() {
+    document.getElementById('btn-choco').click();
+    setActiveButton('mobile-btn-choco', ['mobile-btn-spray', 'mobile-btn-sprinkles', 'mobile-btn-heart', 'mobile-btn-star']);
+    document.getElementById('mobile-spray-settings').style.display = 'none';
+    document.getElementById('mobile-topping-settings').style.display = 'block';
+  });
+  
+  document.getElementById('mobile-btn-heart').addEventListener('click', function() {
+    document.getElementById('btn-heart').click();
+    setActiveButton('mobile-btn-heart', ['mobile-btn-spray', 'mobile-btn-sprinkles', 'mobile-btn-choco', 'mobile-btn-star']);
+    document.getElementById('mobile-spray-settings').style.display = 'none';
+    document.getElementById('mobile-topping-settings').style.display = 'block';
+  });
+  
+  document.getElementById('mobile-btn-star').addEventListener('click', function() {
+    document.getElementById('btn-star').click();
+    setActiveButton('mobile-btn-star', ['mobile-btn-spray', 'mobile-btn-sprinkles', 'mobile-btn-choco', 'mobile-btn-heart']);
+    document.getElementById('mobile-spray-settings').style.display = 'none';
+    document.getElementById('mobile-topping-settings').style.display = 'block';
+  });
+  
+  // サイズスライダーの同期
+  document.getElementById('mobile-tool-size').addEventListener('input', function() {
+    document.getElementById('tool-size').value = this.value;
+    document.getElementById('tool-size-value').textContent = this.value;
+    document.getElementById('mobile-tool-size-value').textContent = this.value;
+    toolSize = parseInt(this.value);
+  });
+  
+  document.getElementById('mobile-topping-size').addEventListener('input', function() {
+    document.getElementById('topping-size').value = this.value;
+    document.getElementById('topping-size-value').textContent = this.value;
+    document.getElementById('mobile-topping-size-value').textContent = this.value;
+    toppingSize = parseInt(this.value);
+  });
+  
+  // ランダム配置の同期
+  document.getElementById('mobile-random-placement').addEventListener('change', function() {
+    document.getElementById('random-placement').checked = this.checked;
+    randomPlacement = this.checked;
+  });
+  
+  // アクションボタンの同期
+  document.getElementById('mobile-btn-undo').addEventListener('click', function() {
+    document.getElementById('btn-undo').click();
+  });
+  
+  document.getElementById('mobile-btn-random').addEventListener('click', function() {
+    document.getElementById('btn-random').click();
+  });
+  
+  document.getElementById('mobile-btn-reset').addEventListener('click', function() {
+    document.getElementById('btn-reset').click();
+  });
+  
+  document.getElementById('mobile-btn-save').addEventListener('click', function() {
+    document.getElementById('btn-save').click();
+  });
 }
 
 // UI要素を設定
 function setupUI() {
-  // モバイルナビゲーションの設定
-  setupMobileNav();
+  // モバイル用タブと同期機能を設定
+  setupMobileTabs();
+  setupMobileSync();
   
   // ドーナツ形状ボタン
   document.getElementById('btn-ring').addEventListener('click', () => {
@@ -185,21 +235,46 @@ function setupUI() {
     sprayColor = color;
   });
   
+  // モバイル用の色パレットも作成
+  createColorPalette('mobile-base-colors', baseColors, (color) => {
+    baseColor = color;
+    drawDonut();
+    saveToHistory();
+  });
+  
+  createColorPalette('mobile-icing-colors', icingColors, (color) => {
+    icingColor = color;
+    drawDonut();
+    saveToHistory();
+  });
+  
+  createColorPalette('mobile-spray-colors', sprayColors, (color) => {
+    sprayColor = color;
+  });
+  
   // レインボーを初期選択状態にする
   setTimeout(() => {
-    const sprayContainer = document.getElementById('spray-colors');
-    const colorOptions = sprayContainer.querySelectorAll('.color-option');
+    const sprayContainers = [
+      document.getElementById('spray-colors'),
+      document.getElementById('mobile-spray-colors')
+    ];
     
-    // 全ての選択状態をクリア
-    colorOptions.forEach(option => {
-      option.classList.remove('selected');
-    });
-    
-    // レインボーのオプションを見つけて選択状態にする
-    colorOptions.forEach(option => {
-      // グラデーション背景を持つ要素がレインボー
-      if (option.style.background && option.style.background.includes('linear-gradient')) {
-        option.classList.add('selected');
+    sprayContainers.forEach(container => {
+      if (container) {
+        const colorOptions = container.querySelectorAll('.color-option');
+        
+        // 全ての選択状態をクリア
+        colorOptions.forEach(option => {
+          option.classList.remove('selected');
+        });
+        
+        // レインボーのオプションを見つけて選択状態にする
+        colorOptions.forEach(option => {
+          // グラデーション背景を持つ要素がレインボー
+          if (option.style.background && option.style.background.includes('linear-gradient')) {
+            option.classList.add('selected');
+          }
+        });
       }
     });
   }, 100); // DOMが完全に読み込まれるのを少し待つ
@@ -229,6 +304,7 @@ function setupUI() {
 // 色パレットを作成する関数
 function createColorPalette(containerId, colors, callback) {
   const container = document.getElementById(containerId);
+  if (!container) return; // コンテナが存在しない場合は中止
   
   colors.forEach(color => {
     const element = document.createElement('div');
@@ -239,7 +315,7 @@ function createColorPalette(containerId, colors, callback) {
       element.style.background = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
       
       // レインボーの場合はデフォルトで選択状態に（sprayColorsの場合のみ）
-      if (containerId === 'spray-colors') {
+      if (containerId.includes('spray-colors')) {
         element.classList.add('selected');
       }
     } else {
@@ -266,21 +342,33 @@ function createColorPalette(containerId, colors, callback) {
   
   // デフォルトの色が明示的に選択されていない場合、最初の色を選択状態に
   if (container.querySelector('.selected') === null) {
-    container.querySelector('.color-option').classList.add('selected');
+    const firstOption = container.querySelector('.color-option');
+    if (firstOption) {
+      firstOption.classList.add('selected');
+    }
   }
 }
 
 // アクティブボタンを設定する関数
 function setActiveButton(activeId, inactiveIds) {
-  document.getElementById(activeId).classList.add('active');
+  const activeButton = document.getElementById(activeId);
+  if (activeButton) {
+    activeButton.classList.add('active');
+  }
+  
   inactiveIds.forEach(id => {
-    document.getElementById(id).classList.remove('active');
+    const button = document.getElementById(id);
+    if (button) {
+      button.classList.remove('active');
+    }
   });
 }
 
 // 色選択の状態を更新
 function updateColorSelection(containerId, color) {
   const container = document.getElementById(containerId);
+  if (!container) return;
+  
   const elements = container.querySelectorAll('.color-option');
   
   elements.forEach(el => {

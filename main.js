@@ -21,27 +21,49 @@ let history = [];
 let currentHistoryIndex = -1;
 const MAX_HISTORY = 20; // 最大履歴数
 
+// モバイルか確認
+const isMobile = () => window.innerWidth <= 768;
+
 function setup() {
   // キャンバスサイズ設定
   let canvasSize;
   
   // モバイルデバイスの場合、キャンバスサイズをウィンドウ幅に合わせる
-  if (windowWidth < 768) {
-    // キャンバスサイズを画面幅の85%に設定
-    canvasSize = windowWidth * 0.85;
+  if (isMobile()) {
+    const mobileCanvasArea = document.getElementById('mobile-canvas-area');
+    if (mobileCanvasArea) {
+      // モバイルキャンバスエリアの寸法を取得
+      const areaWidth = mobileCanvasArea.clientWidth;
+      const areaHeight = mobileCanvasArea.clientHeight;
+      
+      // 利用可能なスペースの80%を使用（パディングも考慮）
+      canvasSize = Math.min(areaWidth, areaHeight) * 0.8;
+    } else {
+      // フォールバック
+      canvasSize = Math.min(windowWidth * 0.85, 350);
+    }
+    
+    // モバイル用キャンバスコンテナに配置
+    const canvas = createCanvas(canvasSize, canvasSize);
+    const mobileCanvasContainer = document.getElementById('mobile-canvas-container');
+    if (mobileCanvasContainer) {
+      canvas.parent(mobileCanvasContainer);
+    } else {
+      canvas.parent('canvas-container'); // フォールバック
+    }
   } else {
+    // デスクトップサイズ
     canvasSize = min(windowWidth * 0.4, 400);
+    const canvas = createCanvas(canvasSize, canvasSize);
+    canvas.parent('canvas-container');
   }
-  
-  const canvas = createCanvas(canvasSize, canvasSize);
-  canvas.parent('canvas-container');
   
   // 別のキャンバスをレイヤー用に作成
   baseLayer = createGraphics(width, height);
   icingLayer = createGraphics(width, height);
   paintLayer = createGraphics(width, height);
-  outlineLayer = createGraphics(width, height); // 縁取り用のレイヤー
-  shadowLayer = createGraphics(width, height); // 影用のレイヤー
+  outlineLayer = createGraphics(width, height);
+  shadowLayer = createGraphics(width, height);
   maskLayer = createGraphics(width, height);
   
   // 初期色を設定
@@ -111,6 +133,50 @@ function mouseReleased() {
   }
 }
 
+function windowResized() {
+  // モバイルの場合の処理
+  if (isMobile()) {
+    const mobileCanvasArea = document.getElementById('mobile-canvas-area');
+    if (mobileCanvasArea) {
+      // モバイルキャンバスエリアの寸法を取得
+      const areaWidth = mobileCanvasArea.clientWidth;
+      const areaHeight = mobileCanvasArea.clientHeight;
+      
+      // 利用可能なスペースの80%を使用
+      const canvasSize = Math.min(areaWidth, areaHeight) * 0.8;
+      
+      // キャンバスサイズを変更
+      resizeCanvas(canvasSize, canvasSize);
+      
+      // グラフィックスバッファのリサイズ
+      baseLayer.resizeCanvas(width, height);
+      icingLayer.resizeCanvas(width, height);
+      paintLayer.resizeCanvas(width, height);
+      outlineLayer.resizeCanvas(width, height);
+      shadowLayer.resizeCanvas(width, height);
+      maskLayer.resizeCanvas(width, height);
+      
+      // 再描画
+      drawDonut();
+    }
+  } else {
+    // デスクトップ用のリサイズ処理
+    const canvasSize = min(windowWidth * 0.4, 400);
+    resizeCanvas(canvasSize, canvasSize);
+    
+    // グラフィックスバッファのリサイズ
+    baseLayer.resizeCanvas(width, height);
+    icingLayer.resizeCanvas(width, height);
+    paintLayer.resizeCanvas(width, height);
+    outlineLayer.resizeCanvas(width, height);
+    shadowLayer.resizeCanvas(width, height);
+    maskLayer.resizeCanvas(width, height);
+    
+    // 再描画
+    drawDonut();
+  }
+}
+
 // 現在の状態を履歴に保存する関数
 function saveToHistory() {
   // 現在のpaintLayerの状態をコピー
@@ -175,50 +241,47 @@ function restoreFromHistory(index) {
 
 // Undoボタンの状態を更新
 function updateUndoButtonState() {
-  const undoButton = document.getElementById('btn-undo');
-  undoButton.disabled = currentHistoryIndex <= 0;
+  const undoButtonIds = ['btn-undo', 'mobile-btn-undo'];
+  
+  undoButtonIds.forEach(id => {
+    const undoButton = document.getElementById(id);
+    if (undoButton) {
+      undoButton.disabled = currentHistoryIndex <= 0;
+    }
+  });
 }
 
 // UIの選択状態を更新
 function updateUIState() {
-  // ドーナツ形状のボタン状態を更新
-  document.getElementById('btn-ring').classList.remove('active');
-  document.getElementById('btn-jam').classList.remove('active');
+  // ドーナツ形状のボタン状態を更新（デスクトップ）
+  if (document.getElementById('btn-ring')) {
+    document.getElementById('btn-ring').classList.remove('active');
+    document.getElementById('btn-jam').classList.remove('active');
+    
+    if (donutShape === 'ring') {
+      document.getElementById('btn-ring').classList.add('active');
+    } else {
+      document.getElementById('btn-jam').classList.add('active');
+    }
+  }
   
-  if (donutShape === 'ring') {
-    document.getElementById('btn-ring').classList.add('active');
-  } else {
-    document.getElementById('btn-jam').classList.add('active');
+  // ドーナツ形状のボタン状態を更新（モバイル）
+  if (document.getElementById('mobile-btn-ring')) {
+    document.getElementById('mobile-btn-ring').classList.remove('active');
+    document.getElementById('mobile-btn-jam').classList.remove('active');
+    
+    if (donutShape === 'ring') {
+      document.getElementById('mobile-btn-ring').classList.add('active');
+    } else {
+      document.getElementById('mobile-btn-jam').classList.add('active');
+    }
   }
   
   // 色選択の状態を更新
   updateColorSelection('base-colors', baseColor);
   updateColorSelection('icing-colors', icingColor);
-}
-
-function windowResized() {
-  // レスポンシブ対応
-  let canvasSize;
-  
-  // モバイルデバイスの場合、キャンバスサイズをウィンドウ幅に合わせる
-  if (windowWidth < 768) {
-    // キャンバスサイズを画面幅の90%に設定（余白を残す）
-    canvasSize = windowWidth * 0.9;
-  } else {
-    canvasSize = min(windowWidth * 0.4, 400);
-  }
-  
-  // キャンバスとグラフィックスバッファをリサイズ
-  resizeCanvas(canvasSize, canvasSize);
-  baseLayer.resizeCanvas(width, height);
-  icingLayer.resizeCanvas(width, height);
-  paintLayer.resizeCanvas(width, height);
-  outlineLayer.resizeCanvas(width, height);
-  shadowLayer.resizeCanvas(width, height);
-  maskLayer.resizeCanvas(width, height);
-  
-  // 再描画
-  drawDonut();
+  updateColorSelection('mobile-base-colors', baseColor);
+  updateColorSelection('mobile-icing-colors', icingColor);
 }
 
 function draw() {
