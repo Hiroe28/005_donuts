@@ -9,14 +9,11 @@ function setupMobileNav() {
     // ドーナツキャンバスへスクロール
     if (btnCanvas) {
       btnCanvas.addEventListener('click', () => {
-        const canvasContainer = document.getElementById('canvas-container');
-        if (canvasContainer) {
-          // 上部へスクロール
-          window.scrollTo({
-            top: 0,
-            behavior: 'smooth'
-          });
-        }
+        // 上部へスクロール
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
       });
     }
     
@@ -26,18 +23,15 @@ function setupMobileNav() {
         // 必ず decoration-panel クラスを持つ要素を取得
         const decorPanel = document.querySelector('.decoration-panel');
         if (decorPanel) {
-          // スクロール位置を少し上にオフセット
-          const yOffset = -50; // 上に50pxオフセット
+          // スクロール位置の調整：
+          // - ヘッダー高さ + キャンバス高さ + 少し余白 = 約250px
+          const yOffset = -250;
           const y = decorPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
           
           window.scrollTo({
-            top: y,
+            top: Math.max(0, y), // 負の値にならないよう保護
             behavior: 'smooth'
           });
-          
-          console.log('スクロール先: デコレーションパネル');
-        } else {
-          console.log('デコレーションパネルが見つかりません');
         }
       });
     }
@@ -45,23 +39,24 @@ function setupMobileNav() {
     // アクションパネルへスクロール
     if (btnAction) {
       btnAction.addEventListener('click', () => {
-        // アクションパネルは最後の control-panel を持つ要素
-        const actionPanel = Array.from(document.querySelectorAll('.control-panel'))
-          .find(panel => panel.querySelector('.panel-title')?.textContent === 'アクション');
+        // アクションパネルを探す
+        const actionPanels = document.querySelectorAll('.control-panel');
+        const actionPanel = Array.from(actionPanels)
+          .find(panel => {
+            const title = panel.querySelector('.panel-title');
+            return title && title.textContent === 'アクション';
+          });
         
         if (actionPanel) {
-          // スクロール位置を少し上にオフセット
-          const yOffset = -50; // 上に50pxオフセット
+          // スクロール位置の調整：
+          // - ヘッダー高さ + キャンバス高さ + 少し余白 = 約250px
+          const yOffset = -250;
           const y = actionPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
           
           window.scrollTo({
-            top: y,
+            top: Math.max(0, y), // 負の値にならないよう保護
             behavior: 'smooth'
           });
-          
-          console.log('スクロール先: アクションパネル');
-        } else {
-          console.log('アクションパネルが見つかりません');
         }
       });
     }
