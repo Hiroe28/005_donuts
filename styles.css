@@ -9,6 +9,11 @@ body {
   margin: 0;
 }
 
+/* デスクトップ用のスタイル */
+.desktop-only {
+  display: block;
+}
+
 h1 {
   color: #ff6b9e;
   text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
@@ -263,20 +268,24 @@ input[type="range"]::-webkit-slider-thumb {
 /* メディアクエリ */
 @media (max-width: 768px) {
   body {
-    padding: 0;
-    margin: 0;
-    height: 100vh;
-    overflow: hidden; /* スクロールを無効化 */
+    padding: 0 !important;
+    margin: 0 !important;
+    height: 100vh !important;
+    overflow: hidden !important; /* スクロールを無効化 */
   }
   
-  /* デスクトップUIを非表示 */
+  /* デスクトップUIを完全に非表示 */
+  .desktop-only {
+    display: none !important;
+  }
+  
   #app-container {
-    display: none;
+    display: none !important;
   }
   
   /* モバイル用の分割レイアウト表示 */
   #mobile-ui {
-    display: flex;
+    display: flex !important;
     flex-direction: column;
     height: 100vh;
     width: 100%;
@@ -332,7 +341,7 @@ input[type="range"]::-webkit-slider-thumb {
   
   /* タブメニュー */
   #mobile-tabs {
-    display: flex;
+    display: flex !important;
     border-bottom: 1px solid #ffcce0;
   }
   
@@ -366,7 +375,7 @@ input[type="range"]::-webkit-slider-thumb {
   }
   
   .mobile-tab-content.active {
-    display: block;
+    display: block !important;
   }
   
   /* 設定パネル */
