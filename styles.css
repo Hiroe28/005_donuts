@@ -298,11 +298,17 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 10px;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     z-index: 10;
+    width: 100%;
   }
   
-  #mobile-header h1 {
+  /* モバイル用タイトル */
+  .mobile-title {
     margin: 0;
+    padding: 5px 0;
     font-size: 1.5rem;
+    color: #ff6b9e;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.1);
+    display: block !important;
   }
   
   /* ドーナツ表示エリア */
