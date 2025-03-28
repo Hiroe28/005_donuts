@@ -9,19 +9,35 @@ function setupMobileNav() {
     // ドーナツキャンバスへスクロール
     if (btnCanvas) {
       btnCanvas.addEventListener('click', () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+        const canvasContainer = document.getElementById('canvas-container');
+        if (canvasContainer) {
+          // 上部へスクロール
+          window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+          });
+        }
       });
     }
     
     // デコレーションパネルへスクロール
     if (btnDecoration) {
       btnDecoration.addEventListener('click', () => {
+        // 必ず decoration-panel クラスを持つ要素を取得
         const decorPanel = document.querySelector('.decoration-panel');
         if (decorPanel) {
-          decorPanel.scrollIntoView({ behavior: 'smooth' });
+          // スクロール位置を少し上にオフセット
+          const yOffset = -50; // 上に50pxオフセット
+          const y = decorPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          
+          window.scrollTo({
+            top: y,
+            behavior: 'smooth'
+          });
+          
+          console.log('スクロール先: デコレーションパネル');
+        } else {
+          console.log('デコレーションパネルが見つかりません');
         }
       });
     }
@@ -29,9 +45,23 @@ function setupMobileNav() {
     // アクションパネルへスクロール
     if (btnAction) {
       btnAction.addEventListener('click', () => {
-        const actionPanel = document.querySelector('.control-panel:last-child');
+        // アクションパネルは最後の control-panel を持つ要素
+        const actionPanel = Array.from(document.querySelectorAll('.control-panel'))
+          .find(panel => panel.querySelector('.panel-title')?.textContent === 'アクション');
+        
         if (actionPanel) {
-          actionPanel.scrollIntoView({ behavior: 'smooth' });
+          // スクロール位置を少し上にオフセット
+          const yOffset = -50; // 上に50pxオフセット
+          const y = actionPanel.getBoundingClientRect().top + window.pageYOffset + yOffset;
+          
+          window.scrollTo({
+            top: y,
+            behavior: 'smooth'
+          });
+          
+          console.log('スクロール先: アクションパネル');
+        } else {
+          console.log('アクションパネルが見つかりません');
         }
       });
     }
