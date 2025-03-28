@@ -22,8 +22,17 @@ let currentHistoryIndex = -1;
 const MAX_HISTORY = 20; // 最大履歴数
 
 function setup() {
-  // キャンバスサイズ設定 (小さめにする)
-  const canvasSize = min(windowWidth * 0.4, 400);
+  // キャンバスサイズ設定
+  let canvasSize;
+  
+  // モバイルデバイスの場合、キャンバスサイズをウィンドウ幅に合わせる
+  if (windowWidth < 768) {
+    // キャンバスサイズを画面幅の85%に設定
+    canvasSize = windowWidth * 0.85;
+  } else {
+    canvasSize = min(windowWidth * 0.4, 400);
+  }
+  
   const canvas = createCanvas(canvasSize, canvasSize);
   canvas.parent('canvas-container');
   
