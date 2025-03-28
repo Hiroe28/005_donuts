@@ -81,8 +81,8 @@ const baseColors = [
           paintLayer.noStroke();
           paintLayer.fill('#ff4d4d');
           
-          // ハートのサイズを小さくする (元のサイズの約70%)
-          const scaleFactor = 0.7;
+          // ハートのサイズを小さくする (元のサイズの約40%)
+          const scaleFactor = 0.4;
           const s = size / 10 * scaleFactor;
           
           paintLayer.beginShape();
