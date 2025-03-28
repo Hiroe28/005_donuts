@@ -1,39 +1,47 @@
-// モバイル用スクロールメニューの設定
-function setupMobileMenu() {
-  // モバイルではスクロール位置に応じたナビゲーションボタンを提供
+// モバイル用ナビゲーションの設定
+function setupMobileNav() {
+  // モバイル画面サイズの場合のみ実行
   if (window.innerWidth <= 768) {
-    const btnScrollToTop = document.getElementById('mobile-btn-scroll-to-top');
-    const btnScrollToTools = document.getElementById('mobile-btn-scroll-to-tools');
-    const btnScrollToAction = document.getElementById('mobile-btn-scroll-to-action');
+    const btnCanvas = document.getElementById('mobile-btn-canvas');
+    const btnDecoration = document.getElementById('mobile-btn-decoration');
+    const btnAction = document.getElementById('mobile-btn-action');
     
-    // ドーナツへスクロール
-    btnScrollToTop.addEventListener('click', () => {
-      window.scrollTo({
-        top: 0,
-        behavior: 'smooth'
+    // ドーナツキャンバスへスクロール
+    if (btnCanvas) {
+      btnCanvas.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
       });
-    });
+    }
     
-    // デコレーションツールへスクロール
-    btnScrollToTools.addEventListener('click', () => {
-      const decorPanel = document.querySelector('.decoration-panel');
-      if (decorPanel) {
-        decorPanel.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
+    // デコレーションパネルへスクロール
+    if (btnDecoration) {
+      btnDecoration.addEventListener('click', () => {
+        const decorPanel = document.querySelector('.decoration-panel');
+        if (decorPanel) {
+          decorPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
     
     // アクションパネルへスクロール
-    btnScrollToAction.addEventListener('click', () => {
-      const actionPanel = document.querySelectorAll('.control-panel')[3]; // アクションパネルは4番目のコントロールパネル
-      if (actionPanel) {
-        actionPanel.scrollIntoView({ behavior: 'smooth' });
-      }
-    });
+    if (btnAction) {
+      btnAction.addEventListener('click', () => {
+        const actionPanel = document.querySelector('.control-panel:last-child');
+        if (actionPanel) {
+          actionPanel.scrollIntoView({ behavior: 'smooth' });
+        }
+      });
+    }
   }
-}// UI要素を設定
+}
+
+// UI要素を設定
 function setupUI() {
-  // モバイルフローティングメニューの設定
-  setupMobileMenu();
+  // モバイルナビゲーションの設定
+  setupMobileNav();
   
   // ドーナツ形状ボタン
   document.getElementById('btn-ring').addEventListener('click', () => {
@@ -51,13 +59,11 @@ function setupUI() {
     drawDonut();
     saveToHistory();
   });
-  
-  // デコレーションツールボタン
+
+  // デコレーションツール
   document.getElementById('btn-spray').addEventListener('click', () => {
     activeTool = 'spray';
     setActiveButton('btn-spray', ['btn-sprinkles', 'btn-choco', 'btn-heart', 'btn-star']);
-    
-    // ツール設定パネルの表示・非表示を切り替え
     document.getElementById('spray-settings').style.display = 'block';
     document.getElementById('topping-settings').style.display = 'none';
   });
@@ -65,8 +71,6 @@ function setupUI() {
   document.getElementById('btn-sprinkles').addEventListener('click', () => {
     activeTool = 'sprinkles';
     setActiveButton('btn-sprinkles', ['btn-spray', 'btn-choco', 'btn-heart', 'btn-star']);
-    
-    // ツール設定パネルの表示・非表示を切り替え
     document.getElementById('spray-settings').style.display = 'none';
     document.getElementById('topping-settings').style.display = 'block';
     
@@ -80,8 +84,6 @@ function setupUI() {
   document.getElementById('btn-choco').addEventListener('click', () => {
     activeTool = 'choco';
     setActiveButton('btn-choco', ['btn-spray', 'btn-sprinkles', 'btn-heart', 'btn-star']);
-    
-    // ツール設定パネルの表示・非表示を切り替え
     document.getElementById('spray-settings').style.display = 'none';
     document.getElementById('topping-settings').style.display = 'block';
     
@@ -95,8 +97,6 @@ function setupUI() {
   document.getElementById('btn-heart').addEventListener('click', () => {
     activeTool = 'heart';
     setActiveButton('btn-heart', ['btn-spray', 'btn-sprinkles', 'btn-choco', 'btn-star']);
-    
-    // ツール設定パネルの表示・非表示を切り替え
     document.getElementById('spray-settings').style.display = 'none';
     document.getElementById('topping-settings').style.display = 'block';
     
@@ -110,8 +110,6 @@ function setupUI() {
   document.getElementById('btn-star').addEventListener('click', () => {
     activeTool = 'star';
     setActiveButton('btn-star', ['btn-spray', 'btn-sprinkles', 'btn-choco', 'btn-heart']);
-    
-    // ツール設定パネルの表示・非表示を切り替え
     document.getElementById('spray-settings').style.display = 'none';
     document.getElementById('topping-settings').style.display = 'block';
     
@@ -122,7 +120,7 @@ function setupUI() {
     }
   });
   
-  // スプレーサイズのスライダー設定
+  // ツールサイズのスライダー設定
   const toolSizeSlider = document.getElementById('tool-size');
   const toolSizeValue = document.getElementById('tool-size-value');
   
